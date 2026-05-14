@@ -6,6 +6,7 @@ export interface CatalogoProps {
   productos: Producto[];
   titulo: string;
   onProductoClick?: (producto: Producto) => void;
+  onWhatsAppClick?: (producto: Producto) => void;
   mostrarVerTodo?: boolean;
   onVerTodoClick?: () => void;
 }
@@ -14,6 +15,7 @@ const Catalogo: React.FC<CatalogoProps> = ({
   productos,
   titulo,
   onProductoClick,
+  onWhatsAppClick,
   mostrarVerTodo = true,
   onVerTodoClick
 }) => {
@@ -37,6 +39,7 @@ const Catalogo: React.FC<CatalogoProps> = ({
             key={producto.id}
             producto={producto}
             onClick={() => onProductoClick?.(producto)}
+            onWhatsAppClick={() => onWhatsAppClick?.(producto)}
           />
         ))}
       </div>

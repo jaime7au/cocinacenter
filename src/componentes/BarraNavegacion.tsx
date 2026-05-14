@@ -4,11 +4,9 @@ import logoCocinasCenter from '../assets/logo-cocinas-center.svg';
 export type PaginaActiva = 'inicio' | 'catalogo' | 'contacto';
 
 export interface BarraNavegacionProps {
-  onCarritoClick?: () => void;
   onLogoClick?: () => void;
   paginaActiva?: PaginaActiva;
   onNavigate?: (pagina: PaginaActiva) => void;
-  totalCarrito?: number;
 }
 
 const enlaces: Array<{ id: PaginaActiva; label: string }> = [
@@ -18,11 +16,9 @@ const enlaces: Array<{ id: PaginaActiva; label: string }> = [
 ];
 
 const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
-  onCarritoClick,
   onLogoClick,
   paginaActiva = 'inicio',
-  onNavigate,
-  totalCarrito = 0
+  onNavigate
 }) => {
   const navegar = (pagina: PaginaActiva) => (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -54,12 +50,9 @@ const BarraNavegacion: React.FC<BarraNavegacionProps> = ({
           ))}
         </div>
 
-        <div className="nav-actions">
-          <button className="nav-btn-carrito" onClick={onCarritoClick}>
-            Carrito {totalCarrito > 0 && <span>{totalCarrito}</span>}
-          </button>
-          <button className="nav-btn-login">Iniciar sesion</button>
-        </div>
+        <a className="nav-whatsapp" href="#contacto" onClick={navegar('contacto')}>
+          Cotizar por WhatsApp
+        </a>
       </div>
     </nav>
   );

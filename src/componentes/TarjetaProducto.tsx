@@ -4,6 +4,7 @@ import { Producto } from '../PaginaInicio';
 export interface TarjetaProductoProps {
   producto: Producto;
   onClick?: () => void;
+  onWhatsAppClick?: () => void;
 }
 
 const formatearPrecio = (precio: number): string => `Q ${precio.toLocaleString('es-GT')}`;
@@ -34,10 +35,10 @@ const ProductoRender: React.FC<{ variante: string }> = ({ variante }) => (
   </svg>
 );
 
-const TarjetaProducto: React.FC<TarjetaProductoProps> = ({ producto, onClick }) => {
-  const abrirProducto = (event: React.MouseEvent<HTMLButtonElement>) => {
+const TarjetaProducto: React.FC<TarjetaProductoProps> = ({ producto, onClick, onWhatsAppClick }) => {
+  const consultarWhatsApp = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onClick?.();
+    onWhatsAppClick?.();
   };
 
   return (
@@ -66,7 +67,7 @@ const TarjetaProducto: React.FC<TarjetaProductoProps> = ({ producto, onClick }) 
             <span className="estrellas">★★★★★</span>
             <span>{producto.rating?.toFixed(1) ?? '5.0'}</span>
           </div>
-          <button className="btn-ver" onClick={abrirProducto}>Ver</button>
+          <button className="btn-ver" onClick={consultarWhatsApp}>WhatsApp</button>
         </div>
       </div>
     </article>

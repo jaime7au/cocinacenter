@@ -114,19 +114,14 @@ button {
   background: rgba(255, 255, 255, 0.07);
 }
 
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.nav-btn-carrito,
-.nav-btn-login,
+.nav-whatsapp,
 .btn-primario,
 .btn-secundario,
 .btn-ver,
 .ver-todo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: var(--radius-sm);
   font-size: 13px;
@@ -136,26 +131,18 @@ button {
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.nav-btn-carrito,
+.nav-whatsapp,
 .btn-primario {
   background: var(--color-accent);
   color: var(--color-primary);
   box-shadow: 0 10px 20px rgba(245, 166, 35, 0.24);
 }
 
-.nav-btn-carrito span {
-  display: inline-grid;
-  place-items: center;
-  min-width: 20px;
-  height: 20px;
-  margin-left: 6px;
-  color: var(--color-white);
-  background: var(--color-primary);
-  border-radius: 999px;
-  font-size: 11px;
+.nav-whatsapp {
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
-.nav-btn-login,
 .btn-secundario {
   background: transparent;
   color: var(--color-white);
@@ -167,8 +154,7 @@ button {
   border-color: rgba(23, 48, 77, 0.28);
 }
 
-.nav-btn-carrito:hover,
-.nav-btn-login:hover,
+.nav-whatsapp:hover,
 .btn-primario:hover,
 .btn-secundario:hover,
 .btn-ver:hover,
@@ -974,13 +960,9 @@ button {
 }
 
 @media (max-width: 620px) {
-  .nav-actions {
+  .nav-whatsapp {
     width: 100%;
-  }
-
-  .nav-btn-carrito,
-  .nav-btn-login {
-    flex: 1;
+    order: 2;
   }
 
   .logo-cocinas-center {

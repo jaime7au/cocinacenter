@@ -19,6 +19,7 @@ export interface Producto {
   medidas?: string;
   color?: string;
   rating?: number;
+  imagenUrl?: string;
 }
 
 export interface Categoria {
@@ -34,7 +35,7 @@ export interface PaginaInicioProps {
   categorias?: Categoria[];
   onProductoClick?: (producto: Producto) => void;
   onCategoriaClick?: (categoria: Categoria) => void;
-  onCarritoClick?: () => void;
+  numeroWhatsApp?: string;
 }
 
 const productosDefault: Producto[] = [
@@ -157,6 +158,7 @@ const estadosFiltro = ['todos', 'cocinas-integrales', 'roperos', 'muebles-bano',
 const paginasValidas: PaginaActiva[] = ['inicio', 'catalogo', 'contacto'];
 
 const formatearPrecio = (precio: number) => `Q ${precio.toLocaleString('es-GT')}`;
+const numeroWhatsAppDefault = '50234259314';
 
 const obtenerPaginaInicial = (): PaginaActiva => {
   if (typeof window === 'undefined') return 'inicio';
@@ -170,13 +172,12 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
   categorias = categoriasDefault,
   onProductoClick,
   onCategoriaClick,
-  onCarritoClick
+  numeroWhatsApp = numeroWhatsAppDefault
 }) => {
   const [paginaActiva, setPaginaActiva] = useState<PaginaActiva>(obtenerPaginaInicial);
   const [categoriaActiva, setCategoriaActiva] = useState('todos');
   const [orden, setOrden] = useState('destacados');
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
-  const [carrito, setCarrito] = useState<Producto[]>([]);
 
   const todosProductos = useMemo(() => {
     const map = new Map<string, Producto>();
@@ -228,10 +229,23 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
     onCategoriaClick?.(categoria);
   };
 
-  const agregarAlCarrito = () => {
-    if (!productoSeleccionado) return;
-    setCarrito((actual) => [...actual, productoSeleccionado]);
-    setProductoSeleccionado(null);
+  const crearMensajeWhatsApp = (producto: Producto) => {
+    const partes = [
+      `CC necesito mas informacion del producto ${producto.nombre}.`,
+      `Precio: ${formatearPrecio(producto.precio)}.`,
+      producto.material ? `Material: ${producto.material}.` : '',
+      producto.medidas ? `Medida: ${producto.medidas}.` : '',
+      producto.color ? `Color: ${producto.color}.` : '',
+      producto.imagenUrl ? `Imagen: ${producto.imagenUrl}` : ''
+    ].filter(Boolean);
+
+    return partes.join(' ');
+  };
+
+  const abrirWhatsApp = (producto: Producto) => {
+    const numeroLimpio = numeroWhatsApp.replace(/\D/g, '');
+    const mensaje = encodeURIComponent(crearMensajeWhatsApp(producto));
+    window.open(`https://wa.me/${numeroLimpio}?text=${mensaje}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -239,8 +253,6 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
       <BarraNavegacion
         paginaActiva={paginaActiva}
         onNavigate={navegar}
-        onCarritoClick={onCarritoClick}
-        totalCarrito={carrito.length}
       />
 
       {paginaActiva === 'inicio' && (
@@ -256,6 +268,7 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
             productos={productosDestacados}
             titulo="Productos Destacados"
             onProductoClick={abrirProducto}
+            onWhatsAppClick={abrirWhatsApp}
             onVerTodoClick={() => irCatalogo()}
           />
           <section className="asesoria-banner">
@@ -269,6 +282,7 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
             productos={productosRecientes}
             titulo="Recien Llegados"
             onProductoClick={abrirProducto}
+            onWhatsAppClick={abrirWhatsApp}
             onVerTodoClick={() => irCatalogo()}
           />
         </>
@@ -321,7 +335,12 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
 
               <div className="productos-grid catalogo-grid">
                 {productosFiltrados.map((producto) => (
-                  <TarjetaProducto key={producto.id} producto={producto} onClick={() => abrirProducto(producto)} />
+                  <TarjetaProducto
+                    key={producto.id}
+                    producto={producto}
+                    onClick={() => abrirProducto(producto)}
+                    onWhatsAppClick={() => abrirWhatsApp(producto)}
+                  />
                 ))}
               </div>
             </div>
@@ -360,7 +379,10 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
       {productoSeleccionado && (
         <div className="modal-backdrop" role="presentation" onClick={() => setProductoSeleccionado(null)}>
           <section className="modal-producto" role="dialog" aria-modal="true" aria-label={productoSeleccionado.nombre} onClick={(event) => event.stopPropagation()}>
-            <TarjetaProducto producto={productoSeleccionado} />
+            <TarjetaProducto
+              producto={productoSeleccionado}
+              onWhatsAppClick={() => abrirWhatsApp(productoSeleccionado)}
+            />
             <div className="modal-detalle">
               <h2>{productoSeleccionado.nombre}</h2>
               <p>{productoSeleccionado.descripcion}</p>
@@ -370,7 +392,7 @@ const PaginaInicio: React.FC<PaginaInicioProps> = ({
                 <div><dt>Color</dt><dd>{productoSeleccionado.color}</dd></div>
               </dl>
               <strong>{formatearPrecio(productoSeleccionado.precio)}</strong>
-              <button className="btn-primario" onClick={agregarAlCarrito}>Agregar al carrito</button>
+              <button className="btn-primario" onClick={() => abrirWhatsApp(productoSeleccionado)}>Consultar por WhatsApp</button>
               <button className="btn-secundario btn-cerrar" onClick={() => setProductoSeleccionado(null)}>Cerrar</button>
             </div>
           </section>
