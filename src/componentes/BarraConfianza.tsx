@@ -2,17 +2,17 @@ import React from 'react';
 
 const BarraConfianza: React.FC = () => {
   const beneficios = [
-    { icono: '🚚', texto: 'Envío Gratis' },
-    { icono: '🛡️', texto: 'Garantía de 2 Años' },
-    { icono: '💳', texto: 'Pagos Seguros' },
-    { icono: '📦', texto: 'Assembly Incluido' },
-    { icono: '⭐', texto: 'Calidad Premium' }
+    { icono: '01', texto: 'Envio en Guatemala' },
+    { icono: '02', texto: 'Garantia de 2 anos' },
+    { icono: '03', texto: 'Pagos seguros' },
+    { icono: '04', texto: 'Instalacion disponible' },
+    { icono: '05', texto: 'Calidad premium' }
   ];
 
   return (
     <div className="barra-confianza">
-      {beneficios.map((beneficio, index) => (
-        <div key={index} className="beneficio">
+      {beneficios.map((beneficio) => (
+        <div key={beneficio.texto} className="beneficio">
           <span className="beneficio-icono">{beneficio.icono}</span>
           <span className="beneficio-texto">{beneficio.texto}</span>
         </div>

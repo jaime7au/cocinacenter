@@ -9,28 +9,26 @@ export interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({
-  titulo = "Cocinas que Transforman tu Hogar",
-  subtitulo = "Diseños modernos y funcionales para la cocina de tus sueños. Calidad, estilo y precio justo.",
-  textoBoton = "Ver Catálogo",
+  titulo = 'Cocinas que transforman tu hogar',
+  subtitulo = 'Disenos modernos, funcionales y fabricados a la medida para vender, cotizar o renovar con confianza.',
+  textoBoton = 'Ver catalogo',
   onBotonClick,
   imagenSrc
 }) => {
   return (
     <section className="hero">
       <div className="hero-contenido">
-        <div className="hero-badge">✨ Nuevas Colecciones 2026</div>
         <h1 className="hero-titulo">
           {titulo.split(' ').map((palabra, i) => (
-            palabra === 'Cocinas' ? <em key={i}>{palabra} </em> : <span key={i}>{palabra} </span>
+            palabra.toLowerCase() === 'cocinas' ? <em key={i}>{palabra} </em> : <span key={i}>{palabra} </span>
           ))}
         </h1>
         <p className="hero-descripcion">{subtitulo}</p>
 
         <div className="hero-botones">
-          <button className="btn-primario" onClick={onBotonClick}>
-            {textoBoton}
-          </button>
-                  </div>
+          <button className="btn-primario" onClick={onBotonClick}>{textoBoton}</button>
+          <button className="btn-secundario" onClick={onBotonClick}>Cotizar ahora</button>
+        </div>
 
         <div className="hero-estadisticas">
           <div className="estadistica">
@@ -39,11 +37,11 @@ const Hero: React.FC<HeroProps> = ({
           </div>
           <div className="estadistica">
             <span className="estadistica-valor">50+</span>
-            <span className="estadistica-etiqueta">Diseños únicos</span>
+            <span className="estadistica-etiqueta">Disenos unicos</span>
           </div>
           <div className="estadistica">
-            <span className="estadistica-valor">5★</span>
-            <span className="estadistica-etiqueta">Calificación</span>
+            <span className="estadistica-valor">5.0</span>
+            <span className="estadistica-etiqueta">Calificacion</span>
           </div>
         </div>
       </div>
@@ -52,8 +50,16 @@ const Hero: React.FC<HeroProps> = ({
         {imagenSrc ? (
           <img src={imagenSrc} alt="Cocina" />
         ) : (
-          <div className="hero-imagen-placeholder">
-            <span>🍳</span>
+          <div className="hero-cocina-render" aria-hidden="true">
+            <div className="hero-wall"></div>
+            <div className="hero-cabinet hero-cabinet-a"></div>
+            <div className="hero-cabinet hero-cabinet-b"></div>
+            <div className="hero-cabinet hero-cabinet-c"></div>
+            <div className="hero-counter"></div>
+            <div className="hero-base hero-base-a"></div>
+            <div className="hero-base hero-base-b"></div>
+            <div className="hero-base hero-base-c"></div>
+            <div className="hero-sink"></div>
           </div>
         )}
       </div>

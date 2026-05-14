@@ -7,22 +7,27 @@ export interface CatalogoProps {
   titulo: string;
   onProductoClick?: (producto: Producto) => void;
   mostrarVerTodo?: boolean;
+  onVerTodoClick?: () => void;
 }
 
 const Catalogo: React.FC<CatalogoProps> = ({
   productos,
   titulo,
   onProductoClick,
-  mostrarVerTodo = true
+  mostrarVerTodo = true,
+  onVerTodoClick
 }) => {
+  const partesTitulo = titulo.split(' ');
+  const ultimaPalabra = partesTitulo.slice(-1).join('');
+
   return (
     <section className="seccion-catalogo">
       <div className="seccion-encabezado">
         <h2 className="seccion-titulo">
-          {titulo.split(' ').slice(0, -1).join(' ')} <span>{titulo.split(' ').slice(-1)}</span>
+          {partesTitulo.slice(0, -1).join(' ')} <span>{ultimaPalabra}</span>
         </h2>
         {mostrarVerTodo && (
-          <a href="#" className="ver-todo">Ver todo →</a>
+          <button className="ver-todo" onClick={onVerTodoClick}>Ver todo</button>
         )}
       </div>
 
