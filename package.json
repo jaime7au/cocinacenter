@@ -17,13 +17,18 @@
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {
+
+
     "build": "tsc && vite build",
     "dev": "vite",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint src --ext ts,tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+
+  "build:web": "vite build --config vite.config.web.js"
+
   },
   "peerDependencies": {
     "react": "^18.0.0",
